@@ -1,0 +1,12 @@
+frontend:
+  .env:
+  .env.override
+  constants
+  next.config.js
+backend:
+  .env
+  .env.override
+db:
+  .env.postgres
+  .env.pgadmin
+

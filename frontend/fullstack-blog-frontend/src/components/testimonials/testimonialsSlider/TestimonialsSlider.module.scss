@@ -1,0 +1,80 @@
+@use "../../../scss/utils/" as *;
+
+.root {
+  position: relative;
+  overflow: hidden;
+  border-left: rem(1) solid var(--mediumgray04-color);
+  min-height: rem(310);
+  color: var(--black-color);
+
+  @include bp-down("876") {
+    border-top: rem(1) solid var(--mediumgray04-color);
+    border-left: none;
+  }
+}
+
+.slider {
+  display: flex;
+  height: 100%;
+  backface-visibility: hidden;
+  touch-action: pan-y;
+}
+
+.navigation {
+  position: absolute;
+  right: 0;
+  bottom: rem(6);
+  display: flex;
+  align-items: center;
+
+  @include bp-down("480") {
+    display: none;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  width: rem(62);
+  height: rem(62);
+  background-color: var(--black-color);
+  transition: opacity 0.3s, width 0.3s, height 0.3s, background-color 0.3s;
+  cursor: pointer;
+
+  svg {
+    width: rem(28);
+    height: rem(28);
+    fill: var(--light-color);
+    transform: rotate(90deg);
+    transition: width 0.3s, height 0.3s;
+  }
+
+  &Inactive {
+    width: rem(48);
+    height: rem(48);
+    background-color: var(--light-color);
+    pointer-events: none;
+
+    svg {
+      width: rem(22);
+      height: rem(22);
+      fill: var(--black-color);
+    }
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:first-child {
+    margin-right: rem(24);
+
+    svg {
+      transform: rotate(-90deg);
+    }
+  }
+}

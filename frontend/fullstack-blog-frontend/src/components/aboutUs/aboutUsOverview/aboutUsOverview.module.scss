@@ -1,0 +1,48 @@
+@use "../../../scss/utils/" as *;
+
+.root {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto min-content;
+  height: rem(444);
+  color: var(--black-color);
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.overview {
+  position: relative;
+  z-index: var(--z-up);
+  display: flex;
+  align-self: self-end;
+  list-style: none;
+  margin: 0;
+  padding-block: rem(32);
+  padding-inline: rem(49);
+  max-width: max-content;
+  background-color: var(--yellow-color);
+
+  // **
+  @include bp-down("768") {
+    padding-block: rem(25);
+    padding-inline: rem(30);
+  }
+
+  @include bp-down("500") {
+    padding-block: rem(25);
+    padding-inline: rem(20);
+  }
+
+  @include bp-down("414") {
+    flex-direction: column;
+  }
+}
+
+.decoration {
+  position: relative;
+  z-index: var(--z-up);
+}

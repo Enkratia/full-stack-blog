@@ -1,0 +1,108 @@
+@use "../../scss//utils/" as *;
+
+.root {
+  position: relative;
+  left: 50%;
+  border-radius: rem(4);
+  padding: rem(32);
+  padding-top: rem(48);
+  width: 100%;
+  max-width: rem(768);
+  color: var(--black-color);
+  background-color: var(--light-color);
+  transform: translateX(-50%);
+
+  @include bp-down("440") {
+    padding-inline: rem(20); // (60>40)1360>320
+  }
+}
+
+.title {
+  margin-bottom: rem(60);
+  text-align: center;
+
+  &Red {
+    color: var(--danger-color);
+  }
+
+  @include bp-down("container") {
+    margin-bottom: calc(rem(33.84) + 1.92vw); // (60>40)1360>320
+  }
+}
+
+// **
+.inputWrapper {
+  &:not(:last-child) {
+    margin-bottom: rem(16);
+  }
+}
+
+.showPass {
+  // right: 0;
+  // top: 0;
+}
+
+.btnWrapper {
+  margin-bottom: rem(16);
+}
+
+// **
+.descr {
+  display: flex;
+  width: 100%;
+  font: var(--body01-font);
+  text-align: initial;
+
+  &Wrapper {
+    margin-right: rem(20);
+  }
+
+  &Text {
+    margin-right: rem(6);
+  }
+
+  &Link {
+    text-align: left;
+    color: var(--purple-color);
+    transition: opacity 0.3s;
+
+    &Right {
+      margin-left: auto;
+      text-align: right;
+    }
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}
+
+.close {
+  position: absolute;
+  right: rem(36);
+  top: rem(36);
+  display: none;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  cursor: pointer;
+
+  svg {
+    width: rem(36);
+    height: rem(36);
+    fill: var(--black-color);
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// **
+[data-modal-auth] {
+  .close {
+    display: block;
+  }
+}

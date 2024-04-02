@@ -1,0 +1,58 @@
+@use "../../scss/utils/" as *;
+
+.root {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: var(--z-modal);
+  width: 100%;
+  color: var(--black-color);
+
+  // padding-right: var(--scrollbar-offset);
+  // position: fixed;
+}
+
+.wrapper {
+  background-color: var(--black-color);
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  padding-top: rem(12);
+  padding-bottom: rem(12);
+
+  @include bp-down("480") {
+    flex-wrap: wrap;
+    padding-top: rem(18);
+    padding-bottom: rem(18);
+  }
+}
+
+.logo {
+  position: relative;
+  top: rem(2);
+  margin-right: rem(20);
+  width: rem(146);
+  height: rem(29);
+  fill: var(--light-color);
+  transition: fill 0.3s;
+
+  &Link {
+    margin-right: auto;
+  }
+
+  &:hover {
+    fill: var(--yellow-hover-color);
+  }
+}
+
+.btn {
+  text-align: center;
+
+  @include bp-down("480") {
+    order: -1;
+    margin-bottom: rem(25);
+    width: 100%;
+  }
+}

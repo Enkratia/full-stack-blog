@@ -1,0 +1,300 @@
+services:
+  # POSTGRES
+  postgres:
+    container_name: postgres_container
+    image: postgres:16.2
+    command:
+      - "postgres"
+      - "-c"
+      # ? (default === 100)
+      - "max_connections=50"
+      - "-c"
+      # 15-25% of total RAM
+      - "shared_buffers=200MB"
+      - "-c"
+      # 50% of total RAM
+      - "effective_cache_size=500MB"
+      - "-c"
+      # Total RAM * 0.25 / max_connections
+      - "work_mem=5MB"
+      - "-c"
+      # Total RAM * 0.05
+      - "maintenance_work_mem=50MB"
+      - "-c"
+      # HDD = 2 | SSD = 1.1-1.3 | NVME === ?
+      - "random_page_cost=2"
+      - "-c"
+      # ? (default === -1)
+      - "temp_file_limit=4GB"
+    volumes:
+      # initialization of existing db is possible only when postgres-data folder is not yet created
+      - ./db/finsweet.sql:/docker-entrypoint-initdb.d/finsweet.sql
+      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - ./db/.env.postgres
+    ports:
+      - '5434:5432'
+    restart: unless-stopped
+    networks:
+      network:
+    # ?
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d finsweet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # PGADMIN
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:8.3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      # if no name volume === docker creates anonymous volume(s!) itself
+      - pgadmin-data:/var/lib/pgadmin
+    env_file:
+      - ./db/.env.pgadmin
+    ports:
+      - "5050:5050"
+    restart: unless-stopped
+    networks:
+      network:
+
+  # # BACKEND
+  backend:
+    container_name: backend_container
+    build:
+      no_cache: true
+      context: ./backend/fullstack-backend-blog
+      dockerfile: Dockerfile
+    # define image name  
+    image: backend:1.0
+    depends_on:
+      - pgadmin
+    volumes:
+      # name(any):directory of app(from Dockerfile), which will be copied in external storage (see storage: docker volume inspect [name])
+      - backend-data:/app/images
+    env_file:
+      - ./backend/fullstack-backend-blog/.env
+      - ./backend/fullstack-backend-blog/.env.override
+    ports:
+      - '3001:3001'
+    restart: unless-stopped
+    networks:
+      network:
+
+  # FRONTEND
+  frontend:
+    container_name: frontend_container
+    build:
+      no_cache: true
+      context: ./frontend/fullstack-blog-frontend
+      dockerfile: Dockerfile
+    # define image name  
+    image: frontend:1.0
+    # ?
+    stdin_open: true
+    # ?
+    tty: true
+    depends_on:
+      - backend
+    env_file:
+      - ./frontend/fullstack-blog-frontend/.env
+      - ./frontend/fullstack-blog-frontend/.env.override
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
+    networks:
+      network:
+
+  # NGINX
+  nginx:
+    container_name: nginx_container
+    image: nginx:stable-alpine3.17-slim
+    # replace old certificates (if needed) + reload nginx (every: 6h)
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    depends_on:
+      - frontend
+    volumes:
+      - ./proxy/nginx/default.conf:/etc/nginx/conf.d/default.conf/:ro
+      - ./proxy/certbot/conf:/etc/letsencrypt/:ro
+      - ./proxy/certbot/www:/var/www/certbot/:ro
+    ports: 
+      - '80:80'
+      - '443:443'
+    restart: unless-stopped
+    networks:
+      network:
+
+  # CERTBOT
+  # certbot:
+  #   # change name?
+  #   container_name: certbot
+  #   image: certbot/certbot:v2.9.0
+  #   depends_on:
+  #     - nginx
+  #   # check certificate expiry dates (every 12h), and if they are due to expire within 30 days it will actually renew them, otherwise it will do nothing
+  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+  #   volumes:
+  #     - ./proxy/certbot/conf:/etc/letsencrypt/:rw
+  #     - ./proxy/certbot/www:/var/www/certbot/:rw
+  #   restart: unless-stopped
+  #   networks:
+  #     network:
+
+#
+networks:
+  network:
+    driver: bridge
+#
+volumes:
+  postgres-data:
+  pgadmin-data:
+  backend-data:
+
+#####################################################################
+# structure: env | [build] | env + build | env + build | env + volume
+
+# can be useful: 
+# to login pgadmin via ipv4: ipv4_address in browser (with no port) 
+
+# check volume name: docker volume ls
+# delete volume: docker volume rm [volume_name]
+
+# other pg commands:
+# - "log_min_duration_statement=200ms"
+# - "idle_in_transaction_session_timeout=10s"
+# - "lock_timeout=1s"
+# - "statement_timeout=60s"
+# - "shared_preload_libraries=pg_stat_statements"
+# - "pg_stat_statements.max=10000"
+# - "pg_stat_statements.track=all"
+
+# other pg options:
+# deploy:
+#   resources:
+#     limits:
+#       cpus: '1'
+#       memory: 4G
+
+# volumes === is not recommended to use on prod?
+
+# DB_PORT === remote_port (local_port:remote_port)
+
+# env_file && environment are available only in runtime (not build time)
+
+# ?
+# args:
+#  NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+#  NEXTAUTH_URL: ${NEXTAUTH_URL}
+
+# save image as tar.gz
+# docker image save blog-backend:latest | gzip > blog_backend_latest.tar.gz
+
+# version (not required?)
+# version: '3.8'
+
+# tags in build creates not one image but two?
+# tags: 
+#   - backend:1.0
+
+# context (in build) === directory of Dockerfile
+
+# merge two compose files:
+# docker compose -f compose.yml -f compose.override.yml up
+
+# send file via ssh
+# scp /path/to/file username@a:/path/to/destination
+
+# send folder via ssh
+# scp -r /path/to/folder username@a:/path/to/destination
+
+# load images into docker
+# docker load -i path/to/file
+
+# запуск полностью локально только с помощью ipv4?
+
+# anonymous volumes:
+# directory on host machine:directory inside docker
+# name volumes:
+# name(any):directory inside docker (use docker volume inspect to see volume directory in host machine)
+
+## ipv4
+# ipv4 example service:
+  # networks:
+  #   network:
+  #     ipv4_address: 192.168.240.2
+
+# ipv4 example declaration:
+  # networks:
+  #   network:
+  #     driver: bridge
+  #     ipam:
+  #       config:
+  #         - subnet: 255.255.255.0/24
+  #           gateway: 255.255.255.1
+
+#####################################################################
+
+# OLD
+# PGADMIN #########################
+# environment:
+#   - PGADMIN_LISTEN_PORT=5454
+#   - PGADMIN_CONFIG_SERVER_MODE: "False"
+
+# PGADMIN | POSTGRESS ########################################
+# deploy:
+#   resources:
+#     limits:
+#       cpus: '0.5'
+#       memory: 1G
+
+# environment:
+#   # set initial db name (or db name === POSTGRES_USER)
+#   - POSTGRES_DB=finsweet
+#   - POSTGRES_USER=postgres
+#   - POSTGRES_PASSWORD=password123
+#   # control output destination
+#   - PGDATA=/var/lib/postgresql/data/pgdata
+
+# environment:
+#   - PORT=${PORT}
+# environment:
+#   # DB_HOST === db container_name
+#   - DB_HOST=postgres_container
+#   - DB_PASSWORD=password123
+#   - DB_USER=postgres
+#   - DB_NAME=finsweet
+#   # DB_PORT === remote_port (local_port:remote_port)
+#   - DB_PORT=5432
+
+# pgadmin:
+#   image: dpage/pgadmin4
+#   restart: always
+#   container_name: nest-pgadmin4
+#   environment:
+#     - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+#     - PGADMIN_DEFAULT_PASSWORD=pgadmin4
+#   ports:
+#     - '5050:80'
+#   depends_on:
+#     - db
+
+# POSTGRES
+# PGDATA=/var/lib/postgresql/data/pgdata
+
+# NGINX
+# build:
+#   context: ./proxy/nginx
+#   dockerfile: Dockerfile
+#   no_cache: true
+
+# NGINX Dockerfile:
+# FROM nginx:1.25.4-alpine
+# RUN rm /etc/nginx/conf.d/default.conf
+# COPY ./default.conf /etc/nginx/conf.d/default.conf
+
+#####################################################################

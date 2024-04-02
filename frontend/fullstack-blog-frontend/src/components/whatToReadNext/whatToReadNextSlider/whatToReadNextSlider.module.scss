@@ -1,0 +1,103 @@
+@use "../../../scss/utils/" as *;
+
+.root {
+  overflow: hidden;
+  color: var(--black-color);
+}
+
+.slider {
+  display: flex;
+  margin-left: rem(-32);
+  backface-visibility: hidden;
+  touch-action: pan-y;
+
+  @include bp-down("1024") {
+    margin-left: rem(-20);
+  }
+}
+
+.slide {
+  &Wrapper {
+    flex: 0 0 calc(100% / 3);
+    padding-left: rem(32);
+    min-width: 0;
+
+    @include bp-down("1024") {
+      padding-left: rem(20);
+    }
+
+    @include bp-down("768") {
+      flex: 0 0 50%;
+    }
+
+    @include bp-down("440") {
+      flex: 0 0 100%;
+    }
+  }
+
+  &:hover {
+    img {
+      transform: scale(1.04);
+    }
+  }
+}
+
+// **
+.image {
+  object-fit: cover;
+  transition: transform 0.3s;
+
+  &Wrapper {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin-bottom: rem(32);
+    padding-top: 78.51%;
+
+    @include bp-down("container") {
+      margin-bottom: calc(rem(16.3) + 1.15vw); // 32>20(1360>320)
+    }
+  }
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: rem(16);
+
+  @include bp-down("container") {
+    margin-bottom: calc(rem(8.15) + 0.57vw); // 16>10(1360>320)
+  }
+}
+
+.title {
+  margin: 0;
+  margin-bottom: rem(16);
+  font: var(--h3-font);
+  letter-spacing: rem(-1);
+  transition: color 0.3s;
+
+  &Link {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &:hover {
+    color: var(--darkgray-color);
+  }
+
+  @include bp-down("container") {
+    margin-bottom: calc(rem(2.92) + 0.96vw); // 16>6(1360>320)
+  }
+}
+
+.descr {
+  @include line-clamp(28, 3);
+
+  margin: 0;
+  font: var(--body01-font);
+  color: var(--black07-color);
+}

@@ -1,0 +1,36 @@
+@use "../../../scss/utils/" as *;
+
+.title {
+  margin-bottom: rem(15);
+}
+
+.btn {
+  margin-bottom: rem(20);
+}
+
+// **
+.list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-top: rem(30);
+  gap: rem(20);
+
+  @include bp-down("768") {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include bp-down("480") {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+.item {
+  justify-self: center;
+
+  &:not(:last-child) {
+    margin-bottom: rem(20);
+  }
+}

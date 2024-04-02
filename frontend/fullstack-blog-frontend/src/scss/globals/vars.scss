@@ -1,0 +1,134 @@
+/* stylelint-disable rule-empty-line-before */
+@use "../utils/" as *;
+
+:root {
+  // Colors
+  --black-color: #232536;
+  --yellow-color: #ffd050;
+  --darkgray-color: #4c4c4c;
+  --mediumgray-color: #6d6e76;
+  --purple-color: #592ea9;
+  --light-color: #fff;
+  --lightyellow-color: #fbf6ea;
+  --lightgray-color: #f4f4f4;
+  --lavender-color: #f4f0f8;
+
+  // **
+  --yellow-hover-color: #edc14a;
+  --black06-color: rgb(33 35 51 / 60%);
+  --black07-color: rgb(33 35 51 / 70%);
+  --mediumgray06-color: rgb(110 111 120 / 60%);
+  --mediumgray05-color: rgb(110 111 120 / 50%);
+  --mediumgray04-color: rgb(110 111 120 / 40%);
+  --mediumgray03-color: rgb(110 111 120 / 30%);
+  --mediumgray02-color: rgb(110 111 120 / 20%);
+  --mediumgray01-color: rgb(110 111 120 / 10%);
+  --yellow-hover060-color: rgb(237 193 74 / 60%);
+  --light005-color: rgb(255 255 255 / 5%);
+  --light010-color: rgb(255 255 255 / 10%);
+  --light070-color: rgb(255 255 255 / 70%);
+  --featured-color: #282938;
+  --post-marker-color: #494a53;
+  --grayborder-color: #c1c1c3;
+  --blue-color: hsla(212deg 100% 48% / 100%);
+  --blue-light-color: rgba(177 213 239 / 20%);
+  --orange-color: #ff7400;
+
+  // **
+  --success-color: #03cea5;
+  --danger-color: #ff4242;
+  --overlay-color: rgb(0 0 0 / 60%);
+  --overlay-light-color: rgb(59 69 78 / 40%);
+  --skeleton-color: #ccc;
+  --skeleton-border-color: rgb(110 111 120 / 10%);
+
+  // Filters
+  --featured-filter: invert(14%) sepia(7%) saturate(2165%) hue-rotate(198deg) brightness(89%) contrast(90%);
+  --mediumgray-filter: invert(48%) sepia(10%) saturate(272%) hue-rotate(196deg) brightness(87%) contrast(87%);
+  --black-filter: invert(13%) sepia(12%) saturate(1459%) hue-rotate(196deg) brightness(93%) contrast(94%);
+
+  // Fonts
+  --display-font: 700 3.5rem / 114% "Sen", sans-serif; // 56
+  --h1-font: 700 3rem / 133% "Sen", sans-serif; // 48
+  --h2-font: 700 2.25rem / 133% "Sen", sans-serif; // 36
+  --h3-font: 700 1.75rem / 142% "Sen", sans-serif; // 28
+  --h4-font: 700 1.5rem / 133% "Sen", sans-serif; // 24
+  --h5-font: 700 1.25rem / 160% "Sen", sans-serif; // 20
+  --h6-font: 700 1rem / 150% "Sen", sans-serif; // 16
+
+  // **
+  --body01-font: 400 1rem / 175% "Inter", sans-serif; // 16
+  --body02-font: 400 0.875rem / 142% "Inter", sans-serif; // 14
+  --label-font: 500 0.875rem / 142% "Inter", sans-serif; // 14
+
+  // **
+  --cap00-font: 900 1rem / 125% "Inter", sans-serif; // 16
+  --cap01-font: 600 1rem / 125% "Inter", sans-serif; // 16
+  --cap03-font: 500 1rem / 125% "Inter", sans-serif; // 16
+
+  // **
+  --btn-font: 700 1.125rem / 133% "Sen", sans-serif; // 18
+  --btn2-font: 700 1.125rem / 177% "Sen", sans-serif; // 18
+  --tag-font: 700 0.875rem / 228% "Sen", sans-serif; // 14
+
+  // **
+  --validation-font: 700 0.875rem / 228% "Sen", sans-serif; // 14
+  --popup-font: 700 7rem / 114% "Sen", sans-serif; // 112
+
+  // Z-indexes
+  --z-postmodal: 1001;
+  --z-modal: 1000;
+  --z-premodal: 999;
+  --z-tooltip: 100;
+  --z-postfixed: 11;
+  --z-fixed: 10;
+  --z-prefixed: 9;
+  --z-postup: 2;
+  --z-up: 1;
+  --z-down: -1;
+
+  // Offsets
+  --scrollbar-offset: 0;
+
+  // Animations
+  --popup-animation: popup-animation 0.2s ease forwards;
+  --skeleton-animation: skeleton-animation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --hide-on-resize-animation: hide-on-resize-animation 0.3s;
+
+  // Gradients
+  --overlay-gradient: radial-gradient(80.99% 71.93% at 74.58% 0%, rgba(0 0 0 / 40%) 0%, rgba(0 0 0 / 60%) 100%);
+}
+
+// **
+@keyframes skeleton-animation {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// **
+@keyframes popup-animation {
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// **
+@keyframes hide-on-resize-animation {
+  0% {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  99% {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

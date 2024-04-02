@@ -1,0 +1,48 @@
+@use "../../scss/utils/" as *;
+
+.root {
+  padding-top: rem(68);
+  color: var(--black-color);
+
+  // **
+  .title {
+    margin: 0;
+    margin-bottom: rem(34);
+    font: var(--h1-font);
+    letter-spacing: rem(-2);
+
+    @include bp-down("container") {
+      margin-bottom: calc(rem(12.98) + 1.57vw); // 34>18 (1340>320)
+      font-size: calc(rem(32.23) + 1.18vw); // 48>36 (1340>320)
+    }
+  }
+
+  .posts {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    padding-top: rem(64);
+    row-gap: rem(59);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: rem(1);
+      background-color: var(--mediumgray-color);
+      opacity: 0.32;
+    }
+
+    @include bp-down("container") {
+      padding-top: calc(rem(37.72) + 1.96vw); // 64>44 (1340>320)
+      row-gap: calc(rem(37.72) + 1.96vw); // 64>44 (1340>320)
+    }
+  }
+
+  // **
+  @include bp-down("container") {
+    padding-top: calc(rem(41.72) + 1.96vw); // 68>48 (1340>320)
+  }
+}

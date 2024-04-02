@@ -1,0 +1,17 @@
+@use "../../../scss/utils/" as *;
+
+.root {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  &:not(:last-child) {
+    margin-bottom: rem(28);
+
+    @include bp-down("1024") {
+      margin-bottom: rem(40);
+    }
+  }
+}

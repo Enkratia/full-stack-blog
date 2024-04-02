@@ -1,0 +1,71 @@
+@use "../../../scss/utils/" as *;
+
+.root {
+  overflow: hidden;
+}
+
+.slider {
+  display: flex;
+  margin-left: rem(-32);
+  backface-visibility: hidden;
+  touch-action: pan-y;
+
+  @include bp-down("1120") {
+    margin-left: rem(-20);
+  }
+
+  @include bp-down("1024") {
+    margin-left: rem(-32);
+  }
+
+  @include bp-down("876") {
+    margin-left: rem(-20);
+  }
+
+  @include bp-down("768") {
+    margin-left: rem(-32);
+  }
+
+  @include bp-down("576") {
+    margin-left: rem(-20);
+  }
+}
+
+.slide {
+  flex: 0 0 25%;
+  padding-left: rem(32);
+  min-width: 0;
+
+  >article {
+    height: 100%;
+  }
+
+  @include bp-down("1120") {
+    padding-left: rem(20);
+  }
+
+  @include bp-down("1024") {
+    flex: 0 0 calc(100% / 3);
+  }
+
+  @include bp-down("1024") {
+    padding-left: rem(32);
+  }
+
+  @include bp-down("876") {
+    padding-left: rem(20);
+  }
+
+  @include bp-down("768") {
+    flex: 0 0 50%;
+    padding-left: rem(32);
+  }
+
+  @include bp-down("576") {
+    padding-left: rem(20);
+  }
+
+  @include bp-down("520") {
+    flex: 0 0 100%;
+  }
+}

@@ -1,0 +1,30 @@
+@use "../../scss/utils/" as *;
+
+.container {
+  display: grid;
+  grid-template-columns: minmax(0, rem(540 - 112)) minmax(rem(140), rem(740));
+  padding-top: rem(80);
+  padding-bottom: rem(75);
+  padding-inline: rem(112);
+  color: var(--black-color);
+  background-color: var(--lightyellow-color);
+
+  @include bp-down("container") {
+    padding-top: calc(rem(-89.62) + 12.66vw); // 80>40(1340>1024)
+    padding-bottom: calc(rem(-73.42) + 11.07vw); // 75>40(1340>1024)
+    padding-inline: calc(rem(-193.32) + 22.78vw); // 112>40(1340>1024)
+  }
+
+  @include bp-down("1024") {
+    padding: rem(40);
+  }
+
+  @include bp-down("876") {
+    display: block;
+  }
+
+  @include bp-down("678") {
+    padding-block: calc(rem(2.12) + 5.59vw); // 40>20(678>320)
+    padding-inline: calc(rem(-16.82) + 8.38vw); // 40>10(678>320)
+  }
+}
