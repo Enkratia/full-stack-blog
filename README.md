@@ -42,5 +42,5 @@ manofthetreasure@gmail.com
 
 **Использовались:**
 
-1. VDS сервер: [`timeweb.cloud`](https://www.timeweb.cloud)
-2. Макет: [`ссылка`](<https://www.figma.com/file/a8wx6iSjafCqs6KXMy8ErH/Client-First-Template-12---Blog-(Community)?type=design&node-id=27-387&mode=design&t=HaBAaY8uHz9Q1KPs-0>)
+1. Макет: [`ссылка`](<https://www.figma.com/file/a8wx6iSjafCqs6KXMy8ErH/Client-First-Template-12---Blog-(Community)?type=design&node-id=27-387&mode=design&t=HaBAaY8uHz9Q1KPs-0>)
+2. VDS сервер: [`timeweb.cloud`](https://www.timeweb.cloud)
