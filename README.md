@@ -4,7 +4,13 @@ https://github.com/Enkratia/fullstack-blog-frontend
 
 https://github.com/Enkratia/fullstack-backend-blog
 
-### Демо:
+### Возможности сайта
+- Аутентификация с возможностью восстановления пароля, подтверждением по электронной почте.
+- Авторизация, защита фронтент и бэкенд роутов.
+- В личном кабинете: просмотр своих постов, написание/редактирование/удаление поста, редактирование личных данных.
+- В панели управления: изменение любой секции сайта, добавление постов/брэндов/.., чтение писем из формы обратной связи.
+
+### Демо
 [`https://finsweet.ru`](https://finsweet.ru)
 
 **Пожалуйста, если используете email - вводите реальный адрес.**
@@ -20,14 +26,14 @@ manofthetreasure@gmail.com
 ```
 
 
-### Frontend:
+### Frontend
 
 - Next.js
 - Typescript
 - Redux toolkit / RTK query
 - SCSS / CSS Modules
 
-### Backend:
+### Backend
 
 - Nest.js
 - Typescript
